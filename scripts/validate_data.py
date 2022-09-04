@@ -55,27 +55,18 @@ def validate_data(data_directory):
     # Calculate actual hash for given filename.
     # If hash for filename is not the same as the one in the file, raise
     # ValueError
-    hash_pth = Path(data_directory)
-    # Directory containing hash filenames file.
-    data_dir = hash_pth.parent
+    hash_pth = Path(data_directory+'/data_hashes.txt')
     # Read in text for hash filename
     hashes_text = hash_pth.read_text()
     # Split into lines.
     hash_text = hashes_text.split("\n")[:-1]
-    # For each line:
-        # Split each line into expected_hash and filename
-        # Calculate actual hash for given filename.
-        # Check actual hash against expected hash
-        # Return False if any of the hashes do not match.
     for lines in hash_text:
-        line = lines.split('  ')
+        line = lines.split(' ')
         expected_hash = line[0]
-        fname = data_dir / line[1]
+        fname = data_directory + '/' + line[1]
         calc_hash = file_hash(fname)
         if not calc_hash == expected_hash:
             raise ValueError
-    
-    return True
 
 
 def main():

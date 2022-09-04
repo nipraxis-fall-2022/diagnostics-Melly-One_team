@@ -2,10 +2,38 @@
 """
 
 from pathlib import Path
+import nibabel as nib
+import numpy as np
 
 
 def detect_outliers(fname):
-    return [42]
+    """ Return outlier indices for image
+    
+
+    Parameters
+    ----------
+    fname : str
+        Image file name.
+
+    Returns
+    -------
+    list
+        volume numbers of outliers.
+
+    """
+    img = nib.load(fname)
+    data = img.get_fdata()
+    
+    overall_mean = np.mean(data)
+    overall_std = np.std(data)
+    thresh = overall_std*2
+    
+    means = np.mean(data,axis=3)
+
+    is_outlier = (means-overall_mean) < -thresh
+    indices = np.where(is_outlier)[0]
+       
+    return indices.tolist()
 
 
 def find_outliers(data_directory):

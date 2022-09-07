@@ -3,7 +3,8 @@
 
 # Any imports you need
 # +++your code here+++
-
+import numpy as np
+import nibabel as nib
 
 def dvars(img):
     """ Calculate dvars metric on Nibabel image `img`
@@ -28,5 +29,9 @@ def dvars(img):
     #
     # You may be be able to solve this in four lines, without a loop.
     # But solve it any way you can.
-    # This is a placeholder, replace it to write your solution.
-    raise NotImplementedError('Code up this function')
+    data = img.get_fdata()
+    prev_vol = data[:,:,:,0:-1]
+    this_vol = data[:,:,:,1:]
+    vol_diff = this_vol-prev_vol
+    dvar_val = np.sqrt(np.mean(vol_diff**2,axis=(0,1,2)))
+    return dvar_val

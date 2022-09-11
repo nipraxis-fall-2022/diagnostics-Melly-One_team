@@ -22,11 +22,14 @@ def file_hash(filename):
     hash : str
         SHA1 hexadecimal hash string for contents of `filename`.
     """
-    # Open the file, read contents as bytes.
-    # Calculate, return SHA1 has on the bytes from the file.
-    # This is a placeholder, replace it to write your solution.
-    raise NotImplementedError(
-        'This is just a template -- you are expected to code this.')
+
+    # Convert a string filename to a Path object.
+    fpath = Path(filename)
+    # Your code here.
+    contents = fpath.read_bytes()
+    hash_value = hashlib.sha1(contents).hexdigest()
+    return hash_value
+    
 
 
 def validate_data(data_directory):
@@ -52,8 +55,18 @@ def validate_data(data_directory):
     # Calculate actual hash for given filename.
     # If hash for filename is not the same as the one in the file, raise
     # ValueError
-    # This is a placeholder, replace it to write your solution.
-    raise NotImplementedError('This is just a template -- you are expected to code this.')
+    hash_pth = Path(data_directory+'/data_hashes.txt')
+    # Read in text for hash filename
+    hashes_text = hash_pth.read_text()
+    # Split into lines.
+    hash_text = hashes_text.split("\n")[:-1]
+    for lines in hash_text:
+        line = lines.split(' ')
+        expected_hash = line[0]
+        fname = data_directory + '/' + line[1]
+        calc_hash = file_hash(fname)
+        if not calc_hash == expected_hash:
+            raise ValueError
 
 
 def main():

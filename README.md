@@ -1,4 +1,5 @@
 # Diagnostics project
+This is the instruction for the nipraxis team work.
 
 Scripts go in the `scripts` directory.
 

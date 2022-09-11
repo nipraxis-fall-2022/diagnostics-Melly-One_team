@@ -12,8 +12,8 @@ def detect_outliers(fname):
 
     Parameters
     ----------
-    fname : str
-        Image file name.
+    fname : a Path object
+        Image file Path object.
 
     Returns
     -------
